@@ -6,6 +6,17 @@ import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "./redux/store";
 import { decrement, increment, incrementByAmount } from "./redux/counter";
 
+// Chakra
+import { ArrowRightIcon, AddIcon, MinusIcon } from "@chakra-ui/icons";
+import { IconButton, Heading, Text, Box } from "@chakra-ui/react";
+import {
+  Slider,
+  SliderTrack,
+  SliderFilledTrack,
+  SliderThumb,
+} from "@chakra-ui/react";
+
+// App
 export default function App() {
   const count = useSelector((state: RootState) => state.counter.value);
   const dispatch = useDispatch();
@@ -13,33 +24,67 @@ export default function App() {
   // To make the input range i use states cause we dont want that specific
   // state global
   const [value, setValue] = useState(0);
-  const handleChange = (e: { target: { value: string } }) => {
-    setValue(Number(e.target.value));
+  const handleChange = (e: Number) => {
+    setValue(Number(e));
   };
 
   return (
     <div className="App">
-      <h1>The count is {count}</h1>
-      <h2>Click the buttons to increment or decrement count</h2>
+      <Heading>The count is {count}</Heading>
+      <Text fontSize="xl">
+        Click the buttons to increment or decrement count
+      </Text>
       <div>
-        <button onClick={() => dispatch(increment())}>Increment</button>
-        <button onClick={() => dispatch(decrement())}>Decrement</button>
         {/* This input use normal state and passes his value to 
             increment by amount  */}
-        <input
+        <Box px={200} mt={8} mb={5} display="flex">
+          <IconButton
+            colorScheme="red"
+            aria-label="Decrement"
+            icon={<MinusIcon />}
+            onClick={() => dispatch(decrement())}
+          />
+
+          <Slider
+            aria-label="slider-ex-2"
+            colorScheme="tomato"
+            defaultValue={value}
+            min={0}
+            max={20}
+            size="lg"
+            onChange={(e) => handleChange(e)}
+          >
+            <SliderTrack>
+              <SliderFilledTrack bg="tomato" />
+            </SliderTrack>
+            <SliderThumb boxSize={5} bg="tomato" />
+          </Slider>
+
+          <IconButton
+            colorScheme="green"
+            aria-label="Increment"
+            icon={<AddIcon />}
+            onClick={() => dispatch(increment())}
+          />
+        </Box>
+
+        {/* <input
           type="range"
           min="0"
           max="20"
           step="1"
           value={value}
           onChange={(e) => handleChange(e)}
-        />
-        <label>{value}</label>
+        /> */}
+        <Text fontSize="xl">{value}</Text>
         {/* Here we use the global reducer to send the amount catched 
             by the the input range */}
-        <button onClick={() => dispatch(incrementByAmount(value))}>
-          Increment By Amount
-        </button>
+        <IconButton
+          colorScheme="green"
+          aria-label="Add Many"
+          icon={<ArrowRightIcon />}
+          onClick={() => dispatch(incrementByAmount(value))}
+        />
       </div>
     </div>
   );
