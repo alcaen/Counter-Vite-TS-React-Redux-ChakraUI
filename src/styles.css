@@ -1,9 +1,15 @@
 .App {
   font-family: sans-serif;
   text-align: center;
+  align-self: center;
+  justify-self: center;
 }
 
 .App button {
   margin: 0 15px;
   padding: 10px;
+}
+
+#root {
+  display: flexbox;
 }
