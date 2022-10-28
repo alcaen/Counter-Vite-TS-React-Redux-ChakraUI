@@ -4,16 +4,28 @@ import { useState } from "react";
 // Import redux funcs
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "./redux/store";
-import { decrement, increment, incrementByAmount } from "./redux/counter";
+import {
+  decrement,
+  increment,
+  incrementByAmount,
+  decrementByAmount,
+} from "./redux/counter";
 
 // Chakra
-import { ArrowRightIcon, AddIcon, MinusIcon } from "@chakra-ui/icons";
+import {
+  ArrowRightIcon,
+  AddIcon,
+  MinusIcon,
+  ArrowLeftIcon,
+} from "@chakra-ui/icons";
 import { IconButton, Heading, Text, Box } from "@chakra-ui/react";
 import {
   Slider,
   SliderTrack,
   SliderFilledTrack,
   SliderThumb,
+  Tooltip,
+  Image,
 } from "@chakra-ui/react";
 
 // App
@@ -30,14 +42,22 @@ export default function App() {
 
   return (
     <div className="App">
-      <Heading>The count is {count}</Heading>
-      <Text fontSize="xl">
-        Click the buttons to increment or decrement count
-      </Text>
-      <div>
-        {/* This input use normal state and passes his value to 
+      {/* This input use normal state and passes his value to 
             increment by amount  */}
-        <Box px={200} mt={8} mb={5} display="flex">
+      <Box
+        mt={8}
+        display="flex"
+        alignItems="center"
+        flexDir="column"
+        rowGap={8}
+      >
+        <Heading>The count is {count}</Heading>
+
+        <Text fontSize="xl" textAlign="center" mx={5}>
+          Click the buttons to increment or decrement count
+        </Text>
+
+        <Box flex={1} display="flex" w="100%" maxW={360} mx={4}>
           <IconButton
             colorScheme="red"
             aria-label="Decrement"
@@ -68,7 +88,8 @@ export default function App() {
           />
         </Box>
 
-        {/* <input
+        <Box display="flex" maxW={400} flex={2}>
+          {/* <input
           type="range"
           min="0"
           max="20"
@@ -76,16 +97,64 @@ export default function App() {
           value={value}
           onChange={(e) => handleChange(e)}
         /> */}
-        <Text fontSize="xl">{value}</Text>
-        {/* Here we use the global reducer to send the amount catched 
+          <IconButton
+            colorScheme="red"
+            aria-label="Decrement Many"
+            icon={<ArrowLeftIcon />}
+            onClick={() => dispatch(decrementByAmount(value))}
+          />
+          <Box
+            justifyContent="center"
+            alignItems="center"
+            display="flex"
+            w={20}
+          >
+            <Text fontSize="xl">{value}</Text>
+          </Box>
+
+          {/* Here we use the global reducer to send the amount catched 
             by the the input range */}
-        <IconButton
-          colorScheme="green"
-          aria-label="Add Many"
-          icon={<ArrowRightIcon />}
-          onClick={() => dispatch(incrementByAmount(value))}
-        />
-      </div>
+          <IconButton
+            colorScheme="green"
+            aria-label="Add Many"
+            icon={<ArrowRightIcon />}
+            onClick={() => dispatch(incrementByAmount(value))}
+          />
+        </Box>
+        <Box display="flex">
+          <Tooltip hasArrow label="GitHub" bg="gray.900">
+            <Box
+              as="a"
+              href="https://github.com/alcaen/Counter-Vite-TS-React-Redux-ChakraUI"
+              target="_blank"
+              mx={5}
+            >
+              <Image
+                src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
+                alt="Alcaen GitHub"
+                w={10}
+                h={10}
+              />
+            </Box>
+          </Tooltip>
+
+          <Tooltip hasArrow label="LinkedIn" bg="blue.500">
+            <Box
+              as="a"
+              href="https://www.linkedin.com/in/alcaen/"
+              target="_blank"
+              mx={5}
+            >
+              <Image
+                src="https://cdn-icons-png.flaticon.com/512/174/174857.png"
+                alt="Alcaen LinkedIn"
+                w={10}
+                h={10}
+              />
+            </Box>
+          </Tooltip>
+        </Box>
+      </Box>
     </div>
   );
 }
